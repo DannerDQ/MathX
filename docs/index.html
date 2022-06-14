@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>MathX Calculator 2.0</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
 <body>
+    <div class="loader"></div>
     <div id="calculadora">
-        <div id="logo">Math<b style="color: #f00;">X</b></div>
+        <div id="logo"> <font>Math<b style="color: #f00;">X</b></font> </div>
         <div id="screen">
             <div id="subscreen1"></div>
             <div id="subscreen2"></div>
@@ -44,7 +46,50 @@
             <button class="button" id="="> = </button>
         </div>
     </div>
-    <script src="style.js"></script>
-    <script src="main.js"></script>    
+    <script src="main.js"></script>   
+    <script>
+
+        $(window).load(function() {
+            $(".loader").fadeOut("slow");
+        });
+
+
+        const clientNavigator = navigator.userAgent;
+        const clientOS = /android|iphone|kindle|ipad|mobile/i;
+        const screen = document.getElementById('screen');
+        const logo = document.getElementById('logo');
+
+        function responsive(ancho, alto){
+
+            ancho = innerWidth;
+            alto = innerHeight;
+            
+            if(clientOS.test(clientNavigator)){
+                calculadora.style.width = '100%';
+                calculadora.style.height = '100%';
+                screen.style.fontSize = `${screen.offsetHeight / 10}px`;
+                logo.style.fontSize = `${logo.offsetHeight / 2}px`;
+            }else{
+                if(ancho < 400)calculadora.style.width = '100%';
+                else if(ancho > 400)calculadora.style.width = '350px';
+                if(ancho < 400 && alto < 1000){
+                    calculadora.style.height = '100%';
+                    screen.style.fontSize = `${screen.offsetHeight / 10}px`
+                    logo.style.fontSize = `${logo.offsetHeight / 2}px`;
+                }else {
+                    if(alto <= 550)calculadora.style.height = '550px';
+                    if(alto < 750 && alto > 550)calculadora.style.height = '100%';
+                    else if(alto < 1000 && alto > 550)calculadora.style.height = '750px';
+                    else if(alto > 1000)calculadora.style.height = `1000px`;
+                    screen.style.fontSize = `${screen.offsetHeight / 10}px`
+                    logo.style.fontSize = `${logo.offsetHeight / 2}px`;
+                    console.log(ancho,alto);
+                }
+            }
+        }
+        console.log(clientNavigator)
+        responsive();
+        addEventListener('resize',responsive);
+    </script> 
 </body>
 </html>

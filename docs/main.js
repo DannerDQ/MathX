@@ -1,11 +1,13 @@
 const byId = selector => document.getElementById(selector);
-const buttons = byId('buttons');
+const calculadora = byId('calculadora');
 const subscreen1 = byId('subscreen1');
-const subscreen2 = byId('subscreen2')
+const subscreen2 = byId('subscreen2');
+const buttons = byId('buttons');
 let evento,open = 0, close = 0;
 let nodeArray = [],nodeArray2 = [];
 let screenArray = [], screenArray2 = [];
 let operation = [],operation2 = [];
+let resultado, a;
 let point = true;
 
 buttons.addEventListener('click', e => {
@@ -67,16 +69,16 @@ function operator(node,display,IaN){
             }
             break;
         case '=':
-            operation = operation.concat(operation2);
-            let a = nodeArray.join('') + nodeArray2.join('');
-            let resultado = eval(a);
+            resultado = nodeArray.concat(nodeArray2);
+            a = resultado.join('');
+            let resultadoFinal = eval(a);
             nodeArray = []; screenArray = [];
             nodeArray2 = []; screenArray2 = [];
             operation = []; operation2 = [];
             nodeArray.push(resultado);
             screenArray.push(resultado);
             operation.push('number');
-            subscreen1.innerText = resultado;
+            subscreen1.innerText = resultadoFinal;
             subscreen2.innerText = screenArray2;
 
             break;
@@ -85,6 +87,15 @@ function operator(node,display,IaN){
                 nodeArray.push(node);
                 screenArray.push(display);
                 point = false;
+            }
+            break;
+        case '%':
+            resultado = nodeArray.concat(nodeArray2);
+            try{
+                a = eval(resultado.join(''));
+                subscreen1.innerText = `${a/100}%`
+            }catch(e){
+                subscreen1.innerText = SyntaxError;
             }
             break;
         default:
